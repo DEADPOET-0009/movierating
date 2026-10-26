@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #0f1117;
+            color: #e8e8ee;
+            line-height: 1.5;
+        }
+
+        .site-top {
+            background: #161922;
+            border-bottom: 1px solid #262a36;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .site-logo {
+            font-size: 26px;
+            color: #ffb703;
+        }
+
+        .top-nav a {
+            color: #c9cbd6;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .top-nav a:hover {
+            color: #ffb703;
+        }
+
+        .main-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .top-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .top-title {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .top-text {
+            color: #9a9db0;
+            margin-bottom: 20px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            max-width: 700px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .search-movie {
+            flex: 1;
+            min-width: 200px;
+            padding: 13px 16px;
+            background: #1d212c;
+            color: #fff;
+            border: 1px solid #2d3242;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .genre-select {
+            padding: 13px 14px;
+            background: #1d212c;
+            color: #fff;
+            border: 1px solid #2d3242;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .search-movie:focus,
+        .genre-select:focus {
+            outline: none;
+            border-color: #ffb703;
+        }
+
+        .search-button {
+            padding: 13px 26px;
+            background: #ffb703;
+            color: #111;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .search-button:hover {
+            background: #ffc933;
+        }
+
+        .search-results {
+            list-style: none;
+            max-width: 700px;
+            margin: 10px auto 0;
+            text-align: left;
+        }
+
+        .search-result-item a {
+           display: block;
+           color: inherit;
+           text-decoration: none;
+        }
+
+        .search-result-item:hover {
+            border-color: #ffb703;
+        }
+
+        .search-no-result {
+            color: #9a9db0;
+            padding: 12px 16px;
+        }
+
+
+        .recommended-head {
+            font-size: 22px;
+            margin-bottom: 16px;
+            border-left: 4px solid #ffb703;
+            padding-left: 10px;
+        }
+
+    
+
+        .movie-box {
+            background: #161922;
+            border: 1px solid #262a36;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .movie-row {
+            display: none;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+
+
+
+        .movie-card {
+            background: #1d212c;
+            border-radius: 10px;
+            text-decoration: none;
+            color: inherit;
+            overflow: hidden;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .movie-poster {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 54px;
+            background: linear-gradient(135deg, #3a3f5c, #1d212c);
+        }
+
+        .movie-card:nth-child(2) .movie-poster {
+            background: linear-gradient(135deg, #7b2d5b, #1d212c);
+        }
+
+        .movie-card:nth-child(3) .movie-poster {
+            background: linear-gradient(135deg, #1f6f78, #1d212c);
+        }
+
+        .movie-card:nth-child(4) .movie-poster {
+            background: linear-gradient(135deg, #8a5a1c, #1d212c);
+        }
+
+        .movie-card:nth-child(5) .movie-poster {
+            background: linear-gradient(135deg, #2f6b3a, #1d212c);
+        }
+
+        .movie-info {
+            padding: 12px;
+        }
+
+        .movie-title {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .movie-genre {
+            font-size: 13px;
+            color: #9a9db0;
+        }
+
+        .movie-rating {
+            margin-top: 6px;
+            color: #ffb703;
+            font-weight: bold;
+        }
+
+        .switch-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 22px;
+            color: #e8e8ee;
+            font-size: 16px;
+        }
+
+        .movie-change {
+            width: 42px;
+            height: 42px;
+            background: #1d212c;
+            border: 1px solid #2d3242;
+            border-radius: 50%;
+            color: #fff;
+        }
+
+        .movie-change:hover {
+            background: #2d3242;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="site-top">
+        <h1 class="site-logo">🎬 MovieRate</h1>
+        <div class="top-nav">
+            <a href="#">Home</a>
+            <a href="#">Top Rated</a>
+            <a href="#">Login</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <div class="top-section">
+            <h2 class="top-head">Find and rate your favorite movies</h2>
+            <p class="top-text">Search by name or pick a genre.</p>
+            <form class="search-form">
+                <input class="search-movie" type="text" placeholder="Search movies...">
+                <select class="genre-select">
+                    <option>All Genres</option>
+                    <option>Action</option>
+                    <option>Comedy</option>
+                    <option>Drama</option>
+                    <option>Horror</option>
+                    <option>Sci-Fi</option>
+                </select>
+                <button class="search-button" type="submit">Search</button>
+            </form>
+            <ul class="search-results"></ul>
+        </div>
+
+        <div class="recommended-section">
+            <h2 class="recommended-head">Featured Movies</h2>
+
+
+
+            <div class="movie-box">
+
+                <div class="movie-row " style="display: grid;">
+                    <a class="movie-card" href="/movie/1">
+                        <div class="movie-poster">🎬</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Midnight Chase</h3>
+                            <p class="movie-genre">Action</p>
+                            <p class="movie-rating">★ 8.5</p>
+                        </div>
+                    </a>
+                    <a class="movie-card" href="/movie/2">
+                        <div class="movie-poster">🚀</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Star Voyage</h3>
+                            <p class="movie-genre">Sci-Fi</p>
+                            <p class="movie-rating">★ 8.1</p>
+                        </div>
+                    </a>
+                    <a class="movie-card" href="/movie/3">
+                        <div class="movie-poster">😂</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Funny Friends</h3>
+                            <p class="movie-genre">Comedy</p>
+                            <p class="movie-rating">★ 7.4</p>
+                        </div>
+                    </a>
+                    <a class="movie-card" href="/movie/4">
+                        <div class="movie-poster">👻</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">The Old House</h3>
+                            <p class="movie-genre">Horror</p>
+                            <p class="movie-rating">★ 7.0</p>
+                        </div>
+                    </a>
+                    <a class="movie-card" href="/movie/5">
+                        <div class="movie-poster">💔</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Last Letter</h3>
+                            <p class="movie-genre">Drama</p>
+                            <p class="movie-rating">★ 8.8</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="movie-row row2">
+                    <a class="movie-card" href="/movie/6">
+                        <div class="movie-poster">🔥</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Fire Line</h3>
+                            <p class="movie-genre">Action</p>
+                            <p class="movie-rating">★ 7.8</p>
+                        </div>
+                    </a>
+                    <a class="movie-card" href="/movie/7">
+                        <div class="movie-poster">🤖</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Robot City</h3>
+                            <p class="movie-genre">Sci-Fi</p>
+                            <p class="movie-rating">★ 8.3</p>
+                        </div>
+                    </a>
+                    <a class="movie-card" href="/movie/8">
+                        <div class="movie-poster">🎭</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Stage Lights</h3>
+                            <p class="movie-genre">Drama</p>
+                            <p class="movie-rating">★ 7.6</p>
+                        </div>
+                    </a>
+                    <a class="movie-card" href="/movie/9">
+                        <div class="movie-poster">🦸</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Hero Rising</h3>
+                            <p class="movie-genre">Action</p>
+                            <p class="movie-rating">★ 7.2</p>
+                        </div>
+                    </a>
+                    <a class="movie-card" href="/movie/10">
+                        <div class="movie-poster">🌊</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Deep Blue</h3>
+                            <p class="movie-genre">Drama</p>
+                            <p class="movie-rating">★ 8.0</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="movie-row row3">
+                    <a class="movie-card" href="/movie/11">
+                        <div class="movie-poster">🧟</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Dark Night</h3>
+                            <p class="movie-genre">Horror</p>
+                            <p class="movie-rating">★ 6.9</p>
+                        </div>
+                    </a>
+                    <a class="movie-card" href="/movie/12">
+                        <div class="movie-poster">🐶</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Lost Puppy</h3>
+                            <p class="movie-genre">Comedy</p>
+                            <p class="movie-rating">★ 7.5</p>
+                        </div>
+                    </a>
+                    <a class="movie-card" href="/movie/13">
+                        <div class="movie-poster">🪐</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Planet Zero</h3>
+                            <p class="movie-genre">Sci-Fi</p>
+                            <p class="movie-rating">★ 8.6</p>
+                        </div>
+                    </a>
+                    <a class="movie-card" href="/movie/14">
+                        <div class="movie-poster">🕵️</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Cold Case</h3>
+                            <p class="movie-genre">Drama</p>
+                            <p class="movie-rating">★ 8.2</p>
+                        </div>
+                    </a>
+                    <a class="movie-card" href="/movie/15">
+                        <div class="movie-poster">🎪</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Circus Day</h3>
+                            <p class="movie-genre">Comedy</p>
+                            <p class="movie-rating">★ 7.1</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="switch-buttons">
+                    <button class="movie-change" type="button" onclick="showrow(1)">1</button>
+                    <button class="movie-change" type="button" onclick="showrow(2)">2</button>
+                    <button class="movie-change" type="button" onclick="showrow(3)">3</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <script>
+        const movieNames = [
+            "Midnight Chase",
+            "Star Voyage",
+            "Funny Friends",
+            "The Old House",
+            "Last Letter",
+            "Fire Line",
+            "Robot City",
+            "Stage Lights",
+            "Hero Rising",
+            "Deep Blue"
+        ];
+
+        const searchForm = document.querySelector(".search-form");
+        const searchInput = document.querySelector(".search-movie");
+        const searchResults = document.querySelector(".search-results");
+
+        searchForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const typed = searchInput.value;
+            let movieno = 0
+
+            for (let i = 0; i < movieNames.length; i++) {
+                if (movieNames[i] == typed) {
+                    movieno = i + 1
+                }
+            }
+
+            if (movieno > 0) {
+                searchResults.innerHTML = '<li class="search-result-item"><a href="/movie/' + movieno + '">' + typed + '</a></li>';
+            } else {
+                searchResults.innerHTML = '<li class="search-no-result">No movies found</li>';
+            }
+        });
+
+
+        function showrow(value){
+            const row = document.querySelectorAll(".movie-row");
+            const button = document.querySelectorAll(".movie-change")
+
+            for(let i = 0;i<row.length;i++){
+                row[i].style.display="none"
+            }
+
+            row[value-1].style.display="grid"
+        }
+
+    </script>
+
+</body>
+
+</html>

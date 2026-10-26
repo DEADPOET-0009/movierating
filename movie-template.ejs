@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Document</title>
+  <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0; 
+      }
+
+    body {
+      background: #0f1117;
+      color: #e8e8ee;
+      line-height: 1.5;
+    }
+
+    .site-header {
+      background: #161922;
+      border-bottom: 1px solid #262a36;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .site-logo { font-size: 26px; color: #ffb703; }
+    .top-nav a {
+      color: #c9cbd6;
+      text-decoration: none;
+      margin-left: 20px;
+    }
+    .top-nav a:hover { color: #ffb703; }
+
+    .main-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: #9a9db0;
+      text-decoration: none;
+      margin-bottom: 20px;
+    }
+    .back-link:hover { color: #ffb703; }
+
+    .movie-details {
+      display: flex;
+      gap: 30px;
+      background: #161922;
+      border: 1px solid #262a36;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 30px;
+    }
+    .movie-poster {
+      flex-shrink: 0;
+      width: 220px;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #3a3f5c, #1d212c);
+    }
+    .movie-info { flex: 1; }
+    .movie-title { font-size: 30px; margin-bottom: 6px; }
+    .movie-meta {
+      color: #9a9db0;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .movie-rating {
+      color: #ffb703;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+    .movie-description-title {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    .movie-description {
+      color: #c9cbd6;
+      margin-bottom: 16px;
+    }
+    .movie-credits {
+      font-size: 14px;
+      color: #9a9db0;
+    }
+    .movie-credits span { color: #e8e8ee; }
+
+    .section-head {
+      font-size: 22px;
+      margin-bottom: 16px;
+      border-left: 4px solid #ffb703;
+      padding-left: 10px;
+    }
+
+    .review-section {
+      background: #161922;
+      border: 1px solid #262a36;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 30px;
+    }
+    .review-form { 
+      display: flex;
+      flex-direction:column;
+      gap: 14px;
+    }
+    .form-label { 
+      font-size: 14px;
+      color: #9a9db0;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .review-name,
+    .review-text {
+      width: 100%;
+      padding: 12px 14px;
+      background: #1d212c;
+      color: #fff;
+      border: 1px solid #2d3242;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    .review-text { 
+      min-height: 110px;
+      }
+    .review-name:focus,
+    .review-text:focus { 
+      outline: none;
+      border-color: #ffb703;
+    }
+
+    .rating {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+    
+
+    .review-button {
+      align-self: flex-start;
+      padding: 12px 28px;
+      background: #ffb703;
+      color: #111;
+      font-weight: bold;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+    }
+    .review-button:hover { background: #ffc933; }
+
+    .review-item {
+      background: #161922;
+      border: 1px solid #262a36;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .review-cont {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .review-author { font-weight: bold; }
+    .review-stars { color: #ffb703; }
+    .review-date { font-size: 13px; color: #7c7f92; margin-bottom: 6px; }
+    .review-comment { color: #c9cbd6; }
+    .no-reviews { color: #9a9db0; }
+
+    .stars{
+        font-size: 105px;
+        color: #3a3f4e;
+        cursor: pointer;
+    }
+
+
+  </style>
+</head>
+<body>
+
+  <div class="site-header">
+    <h1 class="site-logo">🎬 MovieRate</h1>
+    <div class="top-nav">
+      <a href="/">Home</a>
+      <a href="#">Top Rated</a>
+      <a href="#">Login</a>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    <a class="back-link" href="/">← Back to movies</a>
+
+    <div class="movie-details">
+      <div class="movie-poster"><%= movie.emoji %></div>
+
+      <div class="movie-info">
+        <h2 class="movie-title"><%= movie.title %></h2>
+        <p class="movie-data">
+        <%= movie.genre %> - <%= movie.year %> - <%= movie.duration %>
+        </p>
+        <p class="movie-rating"> <%= movie.rating %>/ 10</p>
+
+        <h3 class="movie-description-title">Description</h3>
+        <p class="movie-description"><%= movie.description %></p>
+
+        <p class="movie-credits">Director: <span><%= movie.director %></span></p>
+        <p class="movie-credits">Cast: <span><%= movie.cast %></span></p>
+      </div>
+    </div>
+
+    <div class="review-section">
+      <h2 class="section-head">Write a Review</h2>
+
+      <form class="review-form" action="" method="POST">
+
+        <div class="form-group">
+          <label class="form-label" for="name">Your name</label>
+          <input class="review-name" type="text" id="name" name="name" placeholder="Enter your name">
+        </div>
+
+        <div class="form-group">
+          <span class="form-label">Your rating</span>
+          <div class="rating">
+            <span class="star" onclick="setrating(1)">★</span>
+            <span class="star" onclick="setrating(2)">★</span>
+            <span class="star" onclick="setrating(3)">★</span>
+            <span class="star" onclick="setrating(4)">★</span>
+            <span class="star" onclick="setrating(5)">★</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="comment">Your review</label>
+          <input class="review-text" id="comment"placeholder="What did you think about this movie?"></input>
+        </div>
+
+        <button class="review-button" type="submit">Submit Review</button>
+      </form>
+    </div>
+
+    <div class="reviews-section">
+      <h2 class="section-title">Reviews</h2>
+
+        <ul class="review-list">
+            <li class="review-item">
+              <div class="review-cont">
+                <span class="review-author">review-author</span>
+                <span class="review-stars">rating</span>
+              </div>
+              <p class="review-date">review-date</p>
+              <p class="review-comment">reviewtext</p>
+            </li>
+        </ul>
+        <p class="no-reviews">No reviews yet. Be the first to review this movie!</p>
+    </div>
+
+  </div>
+
+
+
+  <script>
+    function setrating(value){
+        const stars = document.querySelectorAll(".star")
+
+        for(let i=0;i<stars.length;i++){
+            if(i<value){
+            stars[i].style.color="#ffb703"
+            }else{
+                stars[i].style.color="#3a3f4e"
+            }
+        }
+    }
+  </script>
+
+</body>
+</html>
